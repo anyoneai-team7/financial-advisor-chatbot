@@ -1,0 +1,17 @@
+version: "3"
+services:
+  nextjs-ui:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: web-application
+    stdin_open: true
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AI_TEMP=${AI_TEMP}
+      - AI_MAX_TOKENS=${AI_MAX_TOKENS}
+    volumes:
+      - ./frontend:/usr/src/app/frontend
+      - /usr/src/app/frontend/node_modules
