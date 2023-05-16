@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Button } from './Button'
 import { type ChatGPTMessage, ChatLine, LoadingChatLine } from './ChatLine'
 import { useCookies } from 'react-cookie'
+import { OpenAIStream, apiPayload } from '../utils/OpenAIStream'
 
-const COOKIE_NAME = 'nextjs-example-ai-chat-gpt3'
+
+const COOKIE_NAME = 'user_chat_finacial'
 
 // default first message to display in UI (not necessary to define the prompt)
 export const initialMessages: ChatGPTMessage[] = [
@@ -68,49 +70,23 @@ export function Chat() {
     setMessages(newMessages)
     const last10messages = newMessages.slice(-10) // remember last 10 messages
 
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messages: last10messages,
-        user: cookie[COOKIE_NAME],
-      }),
-    })
+    const payload = {
+      messages: last10messages,
+      user: cookie[COOKIE_NAME],
+    } as apiPayload
 
-    console.log('Edge function returned.')
+    const data = await OpenAIStream(payload)
 
-    if (!response.ok) {
-      throw new Error(response.statusText)
-    }
-
-    // This data is a ReadableStream
-    const data = response.body
     if (!data) {
       return
     }
 
-    const reader = data.getReader()
-    const decoder = new TextDecoder()
-    let done = false
+    setMessages([
+      ...newMessages,
+      { role: 'assistant', content: data.content } as ChatGPTMessage,
+    ])
 
-    let lastMessage = ''
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read()
-      done = doneReading
-      const chunkValue = decoder.decode(value)
-
-      lastMessage = lastMessage + chunkValue
-
-      setMessages([
-        ...newMessages,
-        { role: 'assistant', content: lastMessage } as ChatGPTMessage,
-      ])
-
-      setLoading(false)
-    }
+    setLoading(false)
   }
 
   return (

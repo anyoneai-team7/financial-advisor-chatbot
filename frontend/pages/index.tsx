@@ -3,7 +3,7 @@ import { Chat } from '../components/Chat'
 
 function Home() {
   return (
-    <Page className="flex flex-col max-w-full p-16">
+    <Page className="flex flex-col max-w-full-true p-16">
       <section className="flex flex-col gap-6">
         <Text variant="h1">FINANCIAL ADVISOR CHATBOT</Text>
       </section>

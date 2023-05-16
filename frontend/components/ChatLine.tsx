@@ -34,14 +34,15 @@ export const LoadingChatLine = () => (
 )
 
 // util helper to convert new lines to <br /> tags
-const convertNewLines = (text: string) =>
-  text.split('\n').map((line, i) => (
+const convertNewLines = (text: string) => {
+  console.log(text)
+  return text.split('\n').map((line, i) => (
     <span key={i}>
       {line}
       <br />
     </span>
   ))
-
+}
 export function ChatLine({ role = 'assistant', content }: ChatGPTMessage) {
   if (!content) {
     return null
