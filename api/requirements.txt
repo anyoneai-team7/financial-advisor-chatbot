@@ -1,0 +1,4 @@
+flask
+redis
+openai
+flask-cors

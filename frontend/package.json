@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./server.js localhost:3080",
+    "dev": "next dev",
     "start-dev": "NODE_ENV='development' node server.js",
     "build": "next build",
     "start": "next start",
@@ -19,7 +19,8 @@
     "react": "latest",
     "react-cookie": "^4.1.1",
     "react-dom": "latest",
-    "react-wrap-balancer": "^0.1.5"
+    "react-wrap-balancer": "^0.1.5",
+    "nextjs-cors":"2.1.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
