@@ -35,5 +35,30 @@ services:
       AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./api:/usr/src/app/api
+  
+  etl:
+    build:
+      context: ./etl
+    container_name: etl-service
+    depends_on:
+      - elasticsearch
+    environment:
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+volumes:
+  esdata:
 
 
