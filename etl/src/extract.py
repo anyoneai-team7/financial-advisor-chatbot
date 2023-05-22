@@ -58,10 +58,12 @@ def extract_docs(bucket_name, s3_folder, local_dir):
             if not os.path.exists(target):
                 logging.info(f"Downloading {obj.key} to {target}")
                 bucket.download_file(obj.key, target)
+            filesplit = obj.key.split("/")
             yield {
                 "path": target,
-                "company": obj.key.split("/")[1],
-                "year": obj.key.split("/")[2].split("_")[2][:4],
+                "company": filesplit[1],
+                "year": filesplit[2].split("_")[2][:4],
+                "filename": filesplit[2],
             }
 
 

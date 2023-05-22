@@ -7,6 +7,14 @@ from src.transform import convert_file, preprocess_doc
 from haystack.document_stores import ElasticsearchDocumentStore
 
 
+document_store = ElasticsearchDocumentStore(
+    host=os.environ.get("ELASTICSEARCH_HOST", "localhost"),
+    username="",
+    password="",
+    index="document",
+)
+
+
 def index_doc(pdf_doc: Dict[str, str]) -> bool:
     """Process and index a pdf document into elasticsearch
 
@@ -17,14 +25,8 @@ def index_doc(pdf_doc: Dict[str, str]) -> bool:
     if doc:
         doc.meta["company"] = pdf_doc["company"]
         doc.meta["year"] = pdf_doc["year"]
+        doc.meta["filename"] = pdf_doc["filename"]
         doc = preprocess_doc(doc)
-        document_store = ElasticsearchDocumentStore(
-            host=os.environ.get("ELASTICSEARCH_HOST", "localhost"),
-            username="",
-            password="",
-            index="document",
-        )
-        document_store.delete_documents()
         logging.info(f"Indexing {len(doc)} documents")
         document_store.write_documents(doc)
         return True
