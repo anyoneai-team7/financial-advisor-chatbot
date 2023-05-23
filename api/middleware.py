@@ -1,11 +1,9 @@
 import json
 import time
-from uuid import uuid4
 
 import redis
 import settings
 
-# TODO
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
 db = redis.Redis(
@@ -15,15 +13,16 @@ db = redis.Redis(
 )
 
 
-def model_predict():
+def model_predict(api_input):
 
-    prediction = None
-    score = None
+    user = None
+    content = None
 
-    job_id = str(uuid4())
+    job_id = api_input["user"]
 
     job_data = {
-        "id": job_id
+        "id": job_id,
+        "messages": api_input["messages"]
     }
 
 
@@ -36,8 +35,8 @@ def model_predict():
 
         if output is not None:
             output = json.loads(output.decode("utf-8"))
-            prediction = output["prediction"]
-            score = output["score"]
+            user = output["user"]
+            content = output["content"]
 
             db.delete(job_id)
             break
@@ -45,4 +44,4 @@ def model_predict():
         # Sleep some time waiting for model results
         time.sleep(settings.API_SLEEP)
 
-    return prediction, score
+    return user, content

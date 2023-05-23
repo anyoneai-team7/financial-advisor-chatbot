@@ -7,10 +7,9 @@ from flask import (
 )
 import openai
 from settings import(
-    OPEN_AI_KEY,
-    AI_MAX_TOKENS,
-    AI_TEMP
+    OPEN_AI_KEY
 )
+from middleware import model_predict
 
 router = Blueprint("app_router", __name__)
 
@@ -28,17 +27,12 @@ def ask_gpt3():
     try:
         messages = request.json["messages"]
         user = request.json["user"]
-        responseChatGpt = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages= messages,
-            temperature = float(AI_TEMP),
-            max_tokens = int(AI_MAX_TOKENS),
-            user = user
-            
-        )
-        response = jsonify(responseChatGpt.choices[0].message)
+        response = model_predict(messages, user)
         response.headers.add("Access-Control-Allow-Origin", "*")
-        return response
+        return {
+            "user": response["user"],
+            "content": response["content"]
+        }
     except Exception as e:
         error_message = str(e)
         abort(500, description=error_message)
