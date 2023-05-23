@@ -45,7 +45,7 @@ generator = PromptNode(
     "gpt-3.5-turbo",
     api_key=settings.API_KEY,
     default_prompt_template=qa_prompt,
-    model_kwargs={"stream": True},
+    model_kwargs={"stream": True, "temperature": 0},
 )
 
 # Pipeline Retriver-Generator
