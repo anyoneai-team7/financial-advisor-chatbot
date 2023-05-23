@@ -26,8 +26,11 @@ def index():
 @router.route('/api/ask_gpt3', methods=['POST'])
 def ask_gpt3():
     try:
+        print(OPEN_AI_KEY)
         messages = request.json["messages"]
         user = request.json["user"]
+        print(messages)
+        print(user)
         responseChatGpt = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages= messages,
@@ -36,7 +39,9 @@ def ask_gpt3():
             user = user
             
         )
-        response = jsonify(responseChatGpt.choices[0].message)
+
+        
+        response = jsonify(responseChatGpt.choices[0].message) # CITISCM
         response.headers.add("Access-Control-Allow-Origin", "*")
         return response
     except Exception as e:

@@ -16,7 +16,7 @@ REDIS_IP = os.getenv("REDIS_IP", "redis")
 # interval between requests to our redis queue
 API_SLEEP = 0.05
 
-OPEN_AI_KEY = os.getenv("OPENAI_API_KEY","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")
+OPEN_AI_KEY = os.getenv("OPENAI_API_KEY")
 
 AI_TEMP = os.getenv("AI_TEMP","0.7")
 AI_MAX_TOKENS = os.getenv("AI_MAX_TOKENS","100")

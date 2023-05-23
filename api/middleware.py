@@ -22,6 +22,8 @@ def model_predict():
 
     job_id = str(uuid4())
 
+    # job_id = userId
+
     job_data = {
         "id": job_id
     }

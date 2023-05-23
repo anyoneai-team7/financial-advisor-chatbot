@@ -1,0 +1,21 @@
+// 10 max de interacciones
+//
+
+redis  = "4wpdg" : [
+    {
+        "role": "assistant",
+        "content": "Hi! I am a AI financial assistant. Ask me anything!"
+    }, 
+    {
+        "role": "user",
+        "content": "what is python"
+    },
+    {
+        "role" : "assistant",
+        "content" : "PYTHON HBFGGSDGDFSG"
+    },
+    {
+        "role":"user",
+        "content": "how can I use python ?"
+    }       
+]
