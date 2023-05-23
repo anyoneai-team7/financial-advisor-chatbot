@@ -23,7 +23,9 @@ def convert_pdf_jason(pdf_directory, json_directory):
             company_name = folder_name
 
             # Convert PDF files into documents using Haystack
-            docs = convert_files_to_docs(dir_path=folder_path)
+            docs = convert_files_to_docs(
+                dir_path=folder_path,
+            )  # id_hash_keys=["content", "meta"]
 
             # Processes each generated document
             for doc_pdf in docs:
