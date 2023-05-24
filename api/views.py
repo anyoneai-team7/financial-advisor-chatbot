@@ -2,8 +2,7 @@
 from flask import (
     Blueprint,
     request,
-    abort,
-    jsonify
+    abort
 )
 import openai
 from settings import(
@@ -27,6 +26,11 @@ def ask_gpt3():
     try:
         messages = request.json["messages"]
         user = request.json["user"]
+
+        ## validation to get the last 10 messages to the conversation 
+        if(len(messages) > 10):
+            messages = messages[-10:]
+        
         response = model_predict(messages, user)
         response.headers.add("Access-Control-Allow-Origin", "*")
         return {
