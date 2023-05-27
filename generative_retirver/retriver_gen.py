@@ -84,6 +84,7 @@ zero_shot_react_template = PromptTemplate(
     "Question: {query}\n"
     "Thought: Let's think step-by-step, I first need to ",
 )  # output_parser=AnswerParser()
+
 # PromptNode using
 prompt_node = PromptNode(
     "gpt-3.5-turbo",
@@ -134,7 +135,7 @@ def generative_predict(chat_history):
     """
 
     # get the query into de json user
-    user_query = " \n".join(
+    user_query = " \n ".join(
         [f"{item['role']}: {item['conten']}" for item in chat_history]
     )
 
