@@ -1,14 +1,68 @@
-version: '3.2'
-
+version: "3.1"
 services:
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: web-application
+    stdin_open: true
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AI_TEMP: ${AI_TEMP}
+      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
+    volumes:
+      - ./frontend:/usr/src/app/frontend
+      - /usr/src/app/frontend/node_modules
+
   redis:
     image: redis:6.2.6
+
+  api:
+    build:
+      context: ./api
+    container_name: api-application
     ports:
-      - 6379:6379
+      - "5000:5000"
+    depends_on:
+      - redis
+    environment:
+      FLASK_ENV: development
+      FLASK_APP: app.py
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AI_TEMP: ${AI_TEMP}
+      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
+    volumes:
+      - ./api:/usr/src/app/api
+
+  etl:
+    build:
+      context: ./etl
+      args:
+        - UID=${UID}
+    container_name: etl-service
+    depends_on:
+      - elasticsearch
+    environment:
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+    volumes:
+      - ./etl/dataset:/app/dataset
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
     ports:
       - 9200:9200
-    environment:
-      - discovery.type=single-node
+      - 9300:9300
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+volumes:
+  esdata:
+
+
