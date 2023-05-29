@@ -2,21 +2,19 @@ import re
 from typing import Optional
 
 
-def remove_special_chars(text: str, remove_digits: Optional[bool] = False) -> str:
+def remove_special_chars(text: str) -> str:
     """
     Remove non-alphanumeric characters from input string.
 
     Args:
         text : str
             Input string.
-        remove_digits : bool
-            Remove digits.
 
     Return:
         str
             Output string.
     """
-    pattern = r"[^a-zA-Z0-9\s]" if not remove_digits else r"[^a-zA-Z\s]"
+    pattern = r"[^a-zA-Z0-9\s\/\.,\-\&\n\t\$\%€]"
     text = re.sub(pattern, "", text)
     return text
 
@@ -33,7 +31,7 @@ def remove_extra_new_lines(text: str) -> str:
         str
             Output string.
     """
-    return re.sub(r"[\n\t]+", " ", text)
+    return re.sub(r"[\n\t]+", "\n", text)
 
 
 def remove_extra_whitespace(text: str) -> str:
@@ -54,8 +52,6 @@ def remove_extra_whitespace(text: str) -> str:
 def normalize_text(
     text: str,
     text_lower_case: Optional[bool] = False,
-    special_char_removal: Optional[bool] = True,
-    remove_digits: Optional[bool] = False,
 ) -> str:
     """
     Normalize text
@@ -79,18 +75,15 @@ def normalize_text(
     # Remove extra newlines
     doc = remove_extra_new_lines(text)
 
-    if special_char_removal:
-        doc = remove_special_chars(doc, remove_digits=remove_digits)
+    doc = remove_special_chars(doc)
 
-        # Remove extra whitespace
+    # Remove extra whitespace
     doc = remove_extra_whitespace(doc)
 
     # Lowercase the text
     if text_lower_case:
         doc = doc.lower()
 
-        # Remove extra whitespace
-    doc = remove_extra_whitespace(doc)
     doc = doc.strip()
 
     return doc

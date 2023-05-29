@@ -40,7 +40,7 @@ def preprocess_doc(document: List[Document]) -> List[Document]:
         clean_whitespace=True,
         clean_header_footer=True,
         split_by="word",
-        split_length=500,
+        split_length=200,
         split_overlap=20,
         split_respect_sentence_boundary=False,
     )
