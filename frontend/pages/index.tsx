@@ -1,22 +1,11 @@
-import { Text, Page } from '@vercel/examples-ui'
-import { Chat } from '../components/Chat'
+import { Login } from '../components/Login'
 
 function Home() {
   return (
-    <Page className="flex flex-col max-w-full-true p-16">
-      <section className="flex flex-col gap-6">
-        <Text variant="h1">FINANCIAL ADVISOR CHATBOT</Text>
-      </section>
-
-      <section className="flex flex-col gap-3 py-3">
-        <Text variant="h2">AI Chat Bot:</Text>
-        <div>
-          <Chat />
-        </div>
-      </section>
-    </Page>
+    <div className="flex flex-col max-w-full max-h-full py-0 px-0 p-16 bg-slate-800">
+      <Login/>
+    </div>
   )
 }
-
 
 export default Home
