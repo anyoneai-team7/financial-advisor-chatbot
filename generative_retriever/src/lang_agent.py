@@ -4,7 +4,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from haystack.document_stores import ElasticsearchDocumentStore
 from src.retriever import BM25RetrieverRanker
-from langchain.agents import initialize_agent, Tool
+from langchain.agents import initialize_agent, Tool, AgentExecutor
 
 
 def make_retriever():
@@ -26,7 +26,9 @@ def make_agent():
 
     # retrieval qa chain
     qa = RetrievalQA.from_chain_type(
-        llm=llm, chain_type="stuff", retriever=make_retriever()
+        llm=llm,
+        chain_type="stuff",
+        retriever=make_retriever(),
     )
 
     tools = [
@@ -34,8 +36,7 @@ def make_agent():
             name="Knowledge Base",
             func=qa.run,
             description=(
-                "use this tool when answering general knowledge queries to get "
-                "more information about the topic"
+                "useful to ask for information. Try using relevant keywords for a BM25 algorithm."
             ),
         )
     ]
@@ -46,5 +47,8 @@ def make_agent():
         llm=llm,
         max_iterations=3,
         early_stopping_method="generate",
+        verbose=True,
+        stop=["\nObservation:"],
     )
+
     return agent

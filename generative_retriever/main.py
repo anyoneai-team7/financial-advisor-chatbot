@@ -6,11 +6,7 @@ from src.lang_agent import make_agent
 from src import settings
 from dotenv import load_dotenv
 
-from langchain.schema import (
-    BaseMessage,
-    HumanMessage,
-    AIMessage,
-)
+from langchain.schema import BaseMessage, HumanMessage, AIMessage, messages_from_dict
 
 # create agent
 load_dotenv()
@@ -53,8 +49,8 @@ def agent_predict(chat_history: List[BaseMessage]) -> str:
     )["output"]
 
     # updating chat history
-    chat_history.append(HumanMessage(content=query))
-    chat_history.append(AIMessage(content=output))
+    # chat_history.append(HumanMessage(content=query))
+    # chat_history.append(AIMessage(content=output))
 
     return output
 
@@ -74,7 +70,8 @@ def get_answer():
         _, JobDict = db.brpop(settings.REDIS_QUEUE)
         #   2. Run your agent model on the given query
         JobDec = json.loads(JobDict.decode("utf-8"))
-        answer = agent_predict(JobDec["chat_history"])
+        chat_history = messages_from_dict(JobDec["chat_history"])
+        answer = agent_predict(chat_history)
         #   3. Store generative model answer in a dict with the following shape:
         Out_dict = {"answer": answer}
         #   4. Store the results on Redis using the original job ID as the key
@@ -86,5 +83,5 @@ def get_answer():
 
 if __name__ == "__main__":
     # Now launch process
-    get_answer()
     print("Agent service ready")
+    get_answer()
