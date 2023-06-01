@@ -25,6 +25,8 @@ services:
 
   api:
     build:
+      args:
+        - UID=${UID}
       context: ./api
     container_name: api-application
     ports:

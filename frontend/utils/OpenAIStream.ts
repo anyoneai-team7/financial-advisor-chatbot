@@ -1,33 +1,31 @@
-export type ChatGPTAgent = 'user' | 'system' | 'assistant'
+export type ChatGPTAgent = "user" | "system" | "assistant";
 
 export interface ChatGPTMessage {
-  role: ChatGPTAgent
-  content: string
+  role: ChatGPTAgent;
+  content: string;
 }
 
 export interface apiPayload {
-  user:ChatGPTAgent,
-  messages: ChatGPTMessage[]
+  user: ChatGPTAgent;
+  messages: ChatGPTMessage[];
 }
 
 export async function OpenAIStream(payload: apiPayload) {
-
   try {
-    const response = await fetch('http://localhost:5000/api/ask_gpt3', {
+    const response = await fetch("http://localhost:5000/api/ask_model", {
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(payload),
-    })
+    });
     if (response.ok) {
-      return await response.json() as ChatGPTMessage;
+      return (await response.json()) as ChatGPTMessage;
     } else {
-      throw new Error('Request failed');
+      throw new Error("Request failed");
     }
   } catch (error: any) {
-    console.error('Error:', error.message);
-    throw new Error( error.message);
+    console.error("Error:", error.message);
+    throw new Error(error.message);
   }
-
 }
