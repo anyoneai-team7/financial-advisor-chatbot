@@ -15,4 +15,4 @@ REDIS_IP = "redis"
 # interval between requests to our redis queue
 SERVER_SLEEP = 0.05
 
-ELASTICSEARCH_HOST = os.getenv("ELASTICSEARCH_HOST")
+ELASTICSEARCH_HOST = os.environ.get("ELASTICSEARCH_HOST", "localhost")

@@ -5,28 +5,27 @@ from src import settings
 from src.utils import make_retriever
 
 
-llm = ChatOpenAI(
-    openai_api_key=settings.API_KEY,
-    model_name="gpt-3.5-turbo",
-    temperature=0.0,
-)
-
-# retrieval qa chain
-qa = RetrievalQA.from_chain_type(
-    llm=llm, chain_type="stuff", retriever=make_retriever()
-)
-
-SUFFIX = """Begin! Take into consideration the previous chat history (if not empty): {chat_history}. Reminder to ALWAYS respond with a valid json blob of a single action. Use tools if necessary. Respond directly without using any tool if appropriate. Format is Action:```$JSON_BLOB```then Observation:.
+SUFFIX = """Begin! Take into consideration the previous chat history (if not empty): {chat_history}. Reminder to ALWAYS respond with a valid json blob of a single action. Use tools if necessary. Respond directly if appropriate. Format is Action:```$JSON_BLOB```then Observation:.
 Thought:"""
 
 
 def make_agent():
+    llm = ChatOpenAI(
+        openai_api_key=settings.API_KEY,
+        model_name="gpt-3.5-turbo",
+        temperature=0.0,
+    )
+
+    # retrieval qa chain
+    qa = RetrievalQA.from_chain_type(
+        llm=llm, chain_type="stuff", retriever=make_retriever()
+    )
     tools = [
         Tool(
             name="Knowledge Base",
             func=qa.run,
             description=(
-                "Use this tool first and only once per input question when answering complex queries about companies to get "
+                "Use this tool always first when answering complex queries about companies to get "
                 "more information about the topic. Run the query exactly as written, "
                 "except if previous chat history is not empty. "
                 "In that case, run the query according to the previous chat history."
@@ -56,5 +55,6 @@ def make_agent():
             "suffix": SUFFIX,
             "input_variables": ["input", "agent_scratchpad", "chat_history"],
         },
+        verbose=True,
     )
     return agent
