@@ -21,9 +21,9 @@ def ask_model():
         messages = request.json["messages"]
         user = request.json["user"]
 
-        ## Validation to get the last 6 messages to the conversation
-        if len(messages) > 6:
-            messages = messages[-6:]
+        ## Validation to get the last 8 messages to the conversation
+        if len(messages) > 8:
+            messages = messages[-8:]
         response = model_predict(messages, user)
         return {"user": user, "content": response}
     except Exception as e:
