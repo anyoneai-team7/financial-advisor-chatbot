@@ -6,7 +6,7 @@ from src import settings
 from src.utils import build_message_history
 from src.lang_agent import make_agent
 
-logging.basicConfig(level="WARNING")
+logging.basicConfig(level="INFO")
 
 db = redis.Redis(
     host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
@@ -44,7 +44,7 @@ def agent_predict(query: str, chat_history: str) -> str:
 
 
 def run():
-    logging.warning("Waiting for queries...")
+    logging.info("Waiting for queries...")
     try:
         while True:
             _, job_data = db.brpop(settings.REDIS_QUEUE)
