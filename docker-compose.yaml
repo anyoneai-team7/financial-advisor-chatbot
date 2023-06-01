@@ -18,6 +18,10 @@ services:
 
   redis:
     image: redis:6.2.6
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
 
   api:
     build:
@@ -35,7 +39,7 @@ services:
       AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./api:/usr/src/app/api
-  
+
   etl:
     build:
       context: ./etl
@@ -47,6 +51,20 @@ services:
     environment:
       AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
       AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+    volumes:
+      - ./etl/dataset:/app/dataset
+
+  model:
+    build:
+      context: ./etl
+      args:
+        - UID=${UID}
+    container_name: model
+    depends_on:
+      - elasticsearch
+      - redis
+    environment:
       ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
     volumes:
       - ./etl/dataset:/app/dataset
@@ -64,5 +82,6 @@ services:
 
 volumes:
   esdata:
+  redis_data:
 
 
