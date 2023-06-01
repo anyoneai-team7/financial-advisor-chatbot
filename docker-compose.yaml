@@ -69,6 +69,8 @@ services:
     environment:
       ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+    volumes:
+      - cross_encoder:/app/.cache/huggingface/hub
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
@@ -84,5 +86,6 @@ services:
 volumes:
   esdata:
   redis_data:
+  cross_encoder:
 
 

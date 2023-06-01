@@ -2,6 +2,7 @@ import json
 import redis
 import time
 import logging
+from sentence_transformers import CrossEncoder
 from src import settings
 from src.utils import build_message_history
 from src.lang_agent import make_agent
@@ -12,10 +13,8 @@ db = redis.Redis(
     host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
 )
 
-agent = make_agent()
 
-
-def agent_predict(query: str, chat_history: str) -> str:
+def agent_predict(agent, query: str, chat_history: str) -> str:
     """Generate an answer for the given query and chat history using an agent
 
     Args:
@@ -36,6 +35,7 @@ def agent_predict(query: str, chat_history: str) -> str:
                 "chat_history": chat_history_str,
             }
         )["output"]
+        logging.info(output)
 
         try:
             output = json.loads(output)["action_input"]
@@ -47,11 +47,18 @@ def agent_predict(query: str, chat_history: str) -> str:
 
 
 def run():
+    """Run the model service"""
+    # Download cross encoder model for retriever
+    logging.info("Downloading cross encoder")
+    CrossEncoder("cross-encoder/ms-marco-MiniLM-L-12-v2")
+
+    agent = make_agent()
     logging.info("Waiting for queries...")
     while True:
         _, job_data = db.brpop(settings.REDIS_QUEUE)
         job_data = json.loads(job_data.decode("utf-8"))
         answer = agent_predict(
+            agent=agent,
             query=job_data["messages"][-1],
             chat_history=job_data["messages"][:-1],
         )
