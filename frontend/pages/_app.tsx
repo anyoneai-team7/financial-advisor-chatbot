@@ -8,10 +8,9 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <div
-      max-w-full
-    >
+      className='bg-slate-800 font-sans h-screen overscroll-none'
+    > 
       <Component {...pageProps} />
-
     </div>
   )
 }

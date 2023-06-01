@@ -1,8 +1,5 @@
 import clsx from 'clsx'
-import Balancer from 'react-wrap-balancer'
 
-// wrap Balancer to remove type errors :( - @TODO - fix this ugly hack
-const BalancerWrapper = (props: any) => <Balancer {...props} />
 
 type ChatGPTAgent = 'user' | 'system' | 'assistant'
 
@@ -55,7 +52,6 @@ export function ChatLine({ role = 'assistant', content }: ChatGPTMessage) {
         role != 'assistant' ? 'float-right clear-both' : 'float-left clear-both'
       }
     >
-      <BalancerWrapper>
         <div className="float-right mb-5 rounded-lg bg-white px-4 py-5 shadow-lg ring-1 ring-zinc-100 sm:px-6">
           <div className="flex space-x-3">
             <div className="flex-1 gap-4">
@@ -67,7 +63,7 @@ export function ChatLine({ role = 'assistant', content }: ChatGPTMessage) {
               <p
                 className={clsx(
                   'text ',
-                  role == 'assistant' ? 'font-semibold font- ' : 'text-gray-400'
+                  role == 'assistant' ? 'italic font- ' : 'text-gray-400'
                 )}
               >
                 {formatteMessage}
@@ -75,7 +71,6 @@ export function ChatLine({ role = 'assistant', content }: ChatGPTMessage) {
             </div>
           </div>
         </div>
-      </BalancerWrapper>
     </div>
   )
 }

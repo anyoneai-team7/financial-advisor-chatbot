@@ -19,8 +19,8 @@
     "react": "latest",
     "react-cookie": "^4.1.1",
     "react-dom": "latest",
-    "react-wrap-balancer": "^0.1.5",
-    "nextjs-cors":"2.1.2"
+    "nextjs-cors":"2.1.2",
+    "framer-motion": "7.2.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
