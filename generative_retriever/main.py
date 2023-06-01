@@ -6,7 +6,7 @@ from src import settings
 from src.utils import build_message_history
 from src.lang_agent import make_agent
 
-logging.basicConfig(level="INFO")
+logging.basicConfig(level=20)
 
 db = redis.Redis(
     host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
@@ -28,40 +28,38 @@ def agent_predict(query: str, chat_history: str) -> str:
     chat_history_str = build_message_history(chat_history)
 
     # Run the agent with the query and chat history
-
-    output = agent(
-        {
-            "input": query,
-            "chat_history": chat_history_str,
-        }
-    )["output"]
-
+    logging.info("Agent running")
     try:
-        output = json.loads(output)["action_input"]
-        return output
-    except ValueError:
-        return output
+        output = agent(
+            {
+                "input": query,
+                "chat_history": chat_history_str,
+            }
+        )["output"]
+
+        try:
+            output = json.loads(output)["action_input"]
+            return output
+        except ValueError:
+            return output
+    except:
+        return "I am sorry, I cannot answer at the moment. Please try again later"
 
 
 def run():
     logging.info("Waiting for queries...")
-    try:
-        while True:
-            _, job_data = db.brpop(settings.REDIS_QUEUE)
-            job_data = json.loads(job_data.decode("utf-8"))
+    while True:
+        _, job_data = db.brpop(settings.REDIS_QUEUE)
+        job_data = json.loads(job_data.decode("utf-8"))
+        answer = agent_predict(
+            query=job_data["messages"][-1],
+            chat_history=job_data["messages"][:-1],
+        )
+        out_dict = {"content": answer}
+        db.set(job_data["id"], json.dumps(out_dict))
 
-            answer = agent_predict(
-                query=job_data["messages"][-1],
-                chat_history=job_data["messages"][:-1],
-            )
-            out_dict = {"answer": answer}
-            db.set(job_data["id"], json.dumps(out_dict))
-
-            # Sleep for a bit
-            time.sleep(settings.SERVER_SLEEP)
-
-    except KeyboardInterrupt:
-        print("Function stopped.")
+        # Sleep for a bit
+        time.sleep(settings.SERVER_SLEEP)
 
 
 if __name__ == "__main__":
