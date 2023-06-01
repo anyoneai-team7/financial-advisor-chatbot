@@ -18,9 +18,15 @@ services:
 
   redis:
     image: redis:6.2.6
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
 
   api:
     build:
+      args:
+        - UID=${UID}
       context: ./api
     container_name: api-application
     ports:
@@ -35,5 +41,51 @@ services:
       AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./api:/usr/src/app/api
+
+  etl:
+    build:
+      context: ./etl
+      args:
+        - UID=${UID}
+    container_name: etl-service
+    depends_on:
+      - elasticsearch
+    environment:
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+    volumes:
+      - ./etl/dataset:/app/dataset
+
+  model:
+    build:
+      context: ./generative_retriever
+      args:
+        - UID=${UID}
+    container_name: model
+    depends_on:
+      - elasticsearch
+      - redis
+    environment:
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    volumes:
+      - cross_encoder:/app/.cache/huggingface/hub
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+volumes:
+  esdata:
+  redis_data:
+  cross_encoder:
 
 
