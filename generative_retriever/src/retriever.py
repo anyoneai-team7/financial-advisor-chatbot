@@ -1,19 +1,28 @@
 from typing import List
 from langchain.retrievers import ElasticSearchBM25Retriever
 from langchain.docstore.document import Document
+from haystack.document_stores import ElasticsearchDocumentStore
 from haystack.nodes import BM25Retriever, SentenceTransformersRanker
 from haystack import Pipeline
 
 
 class BM25RetrieverRanker(ElasticSearchBM25Retriever):
     def __init__(
-        self, document_store, retriever_top_k: int = 15, ranker_top_k: int = 5
+        self,
+        document_store: ElasticsearchDocumentStore,
+        retriever_top_k: int = 15,
+        ranker_top_k: int = 5,
     ):
         self.document_store = document_store
         self.retriever_top_k = retriever_top_k
         self.ranker_top_k = ranker_top_k
 
-    def _make_retriever_ranker_pipeline(self):
+    def _make_retriever_ranker_pipeline(self) -> Pipeline:
+        """Builds a pipeline composed of a BM25 retriever and a cross-encoder ranker
+
+        Returns:
+            Pipeline
+        """
         retriever = BM25Retriever(
             document_store=self.document_store, top_k=self.retriever_top_k
         )
@@ -27,6 +36,14 @@ class BM25RetrieverRanker(ElasticSearchBM25Retriever):
         return pipeline
 
     def get_relevant_documents(self, query: str) -> List[Document]:
+        """Retrieves relevant documents using the retriever-ranker pipeline
+
+        Args:
+            query (str): query to use for document retrieval
+
+        Returns:
+            List[Document]: relevant documents for the given query
+        """
         pipeline = self._make_retriever_ranker_pipeline()
         res = pipeline.run(query)
         docs = []
