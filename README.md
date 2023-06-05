@@ -21,7 +21,7 @@ In this project, we created a chatbot acting as a financial advisor enable to an
 # Goal
 The main goal of this project is to provide users with a platform in which they can interact with a Chatbot assistant and make questions about finance over NASDAQ companies. To develop the solution we first need to extract all the text data from the provided dataset and store it in a platform such as Elastisearch, which would allow us to subsequently perform text searches to retrieve the results most similar to the user's question. We then have to plug in a Generative Model like [ChatGPT](https://openai.com/blog/chatgpt) to take the retrieved text chunks and create a final answer for the user. The user should be provided with a friendly chat interface and an API to establish communication between the UI and the model. 
 
-# Required tasks by order:
+### Required tasks by order:
 
 - Exploratory Dataset Analysis (EDA)
 
@@ -48,7 +48,7 @@ In order to enable modular development, scalability, and flexibility we have cre
 ├── api -> Used to implement the communication interface between the UI and the model
 ├── redis -> Used as a message broker, inside has a task queue and a hash table.
 ├── generative_retriever -> It is the code that implements the retriver-generative model, it gets the 
-                            user query from Redis, active an Agent that use a serach tool to get   
+                            user query from Redis, active an Agent that use a retriever tool to get   
                             information, and returns the answers.
 ```
 *Figure 1*. System architecture. 
@@ -152,7 +152,7 @@ From the observation the agent will generate a new thought, deciding whether to 
 
 I need to search for Inogen Inc gross margin percentage 2020.
 
-Action: Search tool
+Action: RetrieverQA tool
 
 Action Input: Inogen Inc gross margin percentage 2020
 
