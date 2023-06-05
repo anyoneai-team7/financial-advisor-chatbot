@@ -69,6 +69,8 @@ export function Chat() {
 
   const initialChat = () => {
     setMessages(initialMessages)
+    const randomId = Math.random().toString(36).substring(7)
+    setCookie(COOKIE_NAME, randomId)
   }
   // send message to API /api/chat endpoint
   const sendMessage = async (message: string) => {
