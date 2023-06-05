@@ -30,6 +30,7 @@ services:
       args:
         - UID=${UID}
       context: ./api
+      target: production
     container_name: api-application
     ports:
       - "5000:5000"
@@ -39,11 +40,6 @@ services:
     environment:
       FLASK_ENV: development
       FLASK_APP: app.py
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      AI_TEMP: ${AI_TEMP}
-      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
-    volumes:
-      - ./api:/usr/src/app/api
 
   etl:
     build:

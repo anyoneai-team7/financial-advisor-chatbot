@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.8-slim as base
 
 ARG UID
 WORKDIR /app
@@ -14,4 +14,8 @@ USER appuser
 
 EXPOSE 5000
 
+FROM base as develop
 CMD [ "python", "./app.py" ]
+
+FROM base as production
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
