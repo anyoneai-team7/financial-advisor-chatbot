@@ -4,7 +4,7 @@
 
 ### Team members:
 
-+ [Ciro Villafraz](www.linkedin.com/)
++ [Ciro Villafraz](https://www.linkedin.com/)
 
 + [Alexander Mulet de los Reyes](www.linkedin.com/in/muletdelosreyes89)
 
@@ -83,7 +83,7 @@ In order to enable modular development, scalability, and flexibility we have cre
 │   ├── settings.py
 │   └── tests
 │       └── test_api.py
-├── frontend        # Scrpits for the frontend-backend using Node.js and React
+├── frontend        # Scrpits for the frontend-backend using Next.js
 │   ├── Dockerfile
 │   ├── next-env.d.ts
 │   ├── package-lock.json
