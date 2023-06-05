@@ -167,6 +167,8 @@ Final Answer: Inogen Inc's total gross margin percentage for 2020 was 1.226%
 
 
 # User Interface
+The graphical interface consists of two main views, the login and the chat. Each section of the page is divided into components to improve performance and section rendering. The Next.js framework is implemented, using TypeScript with JavaScript and utilizing Tailwind CSS for styling.
+
  *Figure 2*. User interface
 ![User interface](chatbot(1).jpg)
 # Instalation
