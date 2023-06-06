@@ -1,7 +1,7 @@
-elasticsearch==7.17.9
 --extra-index-url https://download.pytorch.org/whl/cpu
-farm-haystack[preprocessing, pdf, file-conversion]==1.16.1
+farm-haystack[elasticsearch]==1.16.1
 langchain==0.0.174
+openai==0.27.7
 sentence-transformers==2.2.2
 tiktoken==0.4.0
 redis==4.5.5

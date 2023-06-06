@@ -1,6 +1,5 @@
-import os
-from langchain.llms import Cohere
 from langchain.chat_models import ChatOpenAI
+<<<<<<< HEAD
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from haystack.document_stores import ElasticsearchDocumentStore
 from src.retriever import BM25RetrieverRanker
@@ -8,51 +7,86 @@ from langchain.agents import initialize_agent, Tool, AgentExecutor
 import warnings
 
 warnings.filterwarnings("ignore")
+=======
+from langchain.chains import RetrievalQA
+from langchain.agents import initialize_agent, Tool, AgentExecutor
+from src import settings
+from typing import List
+from src.utils import make_retriever
+>>>>>>> ciro
 
 
-def make_retriever():
-    document_store = ElasticsearchDocumentStore(
-        host=os.environ.get("ELASTICSEARCH_HOST", "localhost"),
-        username="",
-        password="",
-        index="document",
-    )
-    return BM25RetrieverRanker(document_store)
+def setup_llm() -> ChatOpenAI:
+    """Creates a ChatOpenAI instance
 
-
-def make_agent():
+    Returns:
+        ChatOpenAI
+    """
     llm = ChatOpenAI(
-        openai_api_key=os.getenv("OPENAI_API_KEY"),
+        openai_api_key=settings.API_KEY,
         model_name="gpt-3.5-turbo",
-        temperature=0.0,
+        temperature=0,
     )
+    return llm
 
-    # retrieval qa chain
+
+def setup_tools(llm: ChatOpenAI) -> List[Tool]:
+    """Creates a list of tools to be used in an agent
+
+    Args:
+        llm (ChatOpenAI): chat model to be used in tools and agent
+
+    Returns:
+        List[Tool]
+    """
     qa = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
         retriever=make_retriever(),
     )
-
     tools = [
         Tool(
-            name="Knowledge Base",
+            name="BM25 Retrieval",
             func=qa.run,
             description=(
+<<<<<<< HEAD
                 "useful to ask for information. Try using relevant keywords for a BM25 algorithm."
+=======
+                "useful to ask for information. Try using relevant keywords for a BM25 algorithm. "
+                "Do not omit important input details such as dates, numbers, company names or acronyms; "
+                "especially if the acronyms are written between parenthesis, for example: (DOO)."
+>>>>>>> ciro
             ),
-        )
+        ),
     ]
+    return tools
 
+
+def make_agent() -> AgentExecutor:
+    """Initializes a chat conversational agent with a chat model and a RetrievalQA tool
+
+    Returns:
+        AgentExecutor
+    """
+    llm = setup_llm()
+    tools = setup_tools(llm)
     agent = initialize_agent(
         agent="chat-conversational-react-description",
         tools=tools,
         llm=llm,
-        max_iterations=3,
+        max_iterations=2,
         early_stopping_method="generate",
+<<<<<<< HEAD
         # verbose=True,
         stop=["\nObservation:"],
         handle_parsing_errors=True,
+=======
+        agent_kwargs={
+            "stop": ["\nObservation:"],
+        },
+        verbose=True,
+        handle_parsing_errors="Check your output and make sure it conforms!",
+>>>>>>> ciro
     )
 
     return agent

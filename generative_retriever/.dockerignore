@@ -1,5 +1,6 @@
 **/__pycache__
 **/.venv
+**/venv
 **/.classpath
 **/.dockerignore
 **/.env
@@ -23,5 +24,6 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/*.ipynb
 LICENSE
 README.md

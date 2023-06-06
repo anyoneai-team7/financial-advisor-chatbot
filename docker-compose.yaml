@@ -15,26 +15,37 @@ services:
     volumes:
       - ./frontend:/usr/src/app/frontend
       - /usr/src/app/frontend/node_modules
+    depends_on:
+      - api
 
   redis:
     image: redis:6.2.6
-
+    ports:
+      - '6379:6379'
+      
   api:
     build:
+      args:
+        - UID=${UID}
       context: ./api
+      target: production
     container_name: api-application
     ports:
       - "5000:5000"
     depends_on:
       - redis
+      - model
     environment:
       FLASK_ENV: development
       FLASK_APP: app.py
+<<<<<<< HEAD
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       AI_TEMP: ${AI_TEMP}
       AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./api:/usr/src/app/api
+=======
+>>>>>>> ciro
 
   etl:
     build:
@@ -51,6 +62,21 @@ services:
     volumes:
       - ./etl/dataset:/app/dataset
 
+  model:
+    build:
+      context: ./generative_retriever
+      args:
+        - UID=${UID}
+    container_name: model
+    depends_on:
+      - elasticsearch
+      - redis
+    environment:
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    volumes:
+      - cross_encoder:/app/.cache/huggingface/hub
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
     container_name: elasticsearch
@@ -64,5 +90,7 @@ services:
 
 volumes:
   esdata:
+  redis_data:
+  cross_encoder:
 
 

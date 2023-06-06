@@ -1,48 +1,32 @@
-
-from flask import (
-    Blueprint,
-    request,
-    abort
-)
-import openai
-from settings import(
-    OPEN_AI_KEY
-)
+import logging
+from flask import Blueprint, request, abort
 from middleware import model_predict
 
 router = Blueprint("app_router", __name__)
 
 router.register_error_handler
 
-openai.api_key = OPEN_AI_KEY
 
 @router.route("/")
 def index():
     return "hello world"
 
 
-@router.route('/api/ask_gpt3', methods=['POST'])
-def ask_gpt3():
+@router.route("/api/ask_model", methods=["POST"])
+def ask_model():
+    """
+    This function is used to get the response from the agent model
+    """
     try:
         messages = request.json["messages"]
         user = request.json["user"]
 
-        ## validation to get the last 10 messages to the conversation 
-        if(len(messages) > 10):
-            messages = messages[-10:]
-        
+        ## Validation to get the last 8 messages to the conversation
+        if len(messages) > 8:
+            messages = messages[-8:]
         response = model_predict(messages, user)
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return {
-            "user": response["user"],
-            "content": response["content"]
-        }
+        return {"user": user, "content": response}
     except Exception as e:
         error_message = str(e)
+        logging.error(error_message)
         abort(500, description=error_message)
-
-    
-
-
-
-

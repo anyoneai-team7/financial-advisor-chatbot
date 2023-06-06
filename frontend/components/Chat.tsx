@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from './Button'
 import { type ChatGPTMessage, ChatLine, LoadingChatLine } from './ChatLine'
 import { useCookies } from 'react-cookie'
+
 import { OpenAIStream, apiPayload } from '../utils/OpenAIStream'
 
 
@@ -11,12 +12,12 @@ const COOKIE_NAME = 'user_chat_finacial'
 export const initialMessages: ChatGPTMessage[] = [
   {
     role: 'assistant',
-    content: 'Hi! I am a friendly AI assistant. Ask me anything!',
+    content: 'Hi! I am a financial AI assistant. Ask me anything!',
   },
 ]
 
-const InputMessage = ({ input, setInput, sendMessage }: any) => (
-  <div className="mt-6 flex clear-both">
+const InputMessage = ({ input, setInput, sendMessage, initialChat }: any) => (
+  <div className="mt-6 flex clear-both pb-6">
     <input
       type="text"
       aria-label="chat input"
@@ -43,6 +44,12 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
     >
       Say
     </Button>
+    <Button
+      className="ml-4 flex-none"
+      onClick = {initialChat}
+    >
+      Delete
+    </Button>
   </div>
 )
 
@@ -60,6 +67,9 @@ export function Chat() {
     }
   }, [cookie, setCookie])
 
+  const initialChat = () => {
+    setMessages(initialMessages)
+  }
   // send message to API /api/chat endpoint
   const sendMessage = async (message: string) => {
     setLoading(true)
@@ -90,23 +100,30 @@ export function Chat() {
   }
 
   return (
-    <div className="rounded-2xl border-zinc-100  lg:border lg:p-6">
-      {messages.map(({ content, role }, index) => (
-        <ChatLine key={index} role={role} content={content} />
-      ))}
+    
+      <div className='h-full p-16'>
+        
+        {messages.map(({ content, role }, index) => (
+          <ChatLine key={index} role={role} content={content} />
+        ))}
 
-      {loading && <LoadingChatLine />}
+        {loading && <LoadingChatLine />}
 
-      {messages.length < 2 && (
-        <span className="mx-auto flex flex-grow text-gray-600 clear-both">
-          Type a message to start the conversation
-        </span>
-      )}
-      <InputMessage
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-      />
-    </div>
+        {messages.length < 2 && (
+          <span className="mx-auto flex flex-grow text-gray-600 clear-both">
+            Type a message to start the conversation
+          </span>
+        )}
+ 
+        <InputMessage
+              input={input}
+              setInput={setInput}
+              sendMessage={sendMessage}
+              initialChat={initialChat}
+        />
+                   
+        
+      </div>
+    
   )
 }
