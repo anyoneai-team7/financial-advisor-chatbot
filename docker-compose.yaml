@@ -22,8 +22,6 @@ services:
     image: redis:6.2.6
     ports:
       - '6379:6379'
-    volumes:
-      - redis_data:/data
       
   api:
     build:
