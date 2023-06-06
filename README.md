@@ -52,7 +52,7 @@ In order to enable modular development, scalability, and flexibility we have cre
                             information, and returns the answers.
 ```
 *Figure 1*. System architecture. 
-![System_architecture](arch(1).jpg)
+![System_architecture](arch(1).png)
 
 ## Full project structure
 
@@ -147,7 +147,7 @@ From the observation the agent will generate a new thought, deciding whether to 
 
 *Figure 2.* Agent's processes cycle
 
-![Agent](agent(2).jpg)
+![Agent](agent(1).png)
 
 ### The output from the Agent:
 
