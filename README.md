@@ -4,16 +4,16 @@
 
 ### Team members:
 
-+ [Ciro Villafraz](https://www.linkedin.com/)
++ [Ciro Villafraz](https://www.linkedin.com/in/ciro-villafraz/)
 
 + [Alexander Mulet de los Reyes](https://www.linkedin.com/in/muletdelosreyes89)
 
-+ [Sebastian Lugo](https://www.linkedin.com/)
++ [Sebastian Lugo](https://www.linkedin.com/in/jhoan-sebastian-lugo-ruiz-8577b01b6/)
 
 + [Alejandro León](https://www.linkedin.com/)
 
 ### Mentor:
-+ [Claudio A. Gauna](https://www.linkedin.com/)
++ [Claudio A. Gauna](https://www.linkedin.com/in/claudio-andres-gauna-2b697b97/)
 
 # ABSTRACT
 In this project, we created a chatbot acting as a financial advisor enable to answer questions related to public companies listed in NASDAQ. The bot uses a conversational Agent to coordinate chains of thoughts inserted in ChatGPT through its API, and has access to a database with around ~10.000 public financial documents and news from internet sources to provide users with reliable and accurate answers. All documents were preprocessed and indexed in an Elastiserach document store, and the search is done with the sparse retriever BM25 paired with a Sentence Transformers Ranker. BM25 is fast and lightweight, however, it is not sensitive to word order, nither to the semantics of the text but rather treats text as a bag of words. By placing a Ranker afterward we were able to offset this weakness and have a better-sorted list of relevant documents. The model was tested with **50** questions related to 10 different companies, obtaining an effectiveness of **80%** of correct answers, **16%** of not found answers and only **4%** of incorrect answers. The incorrect answers are all associated with obtaining contexts related to the user's question but from different periods than the one requested in the query. In addition, most of the answers not found or wrongly answered could be solved by slightly modifying the question asked or providing more details to the bot. 
