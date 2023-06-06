@@ -5,6 +5,9 @@ from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from haystack.document_stores import ElasticsearchDocumentStore
 from src.retriever import BM25RetrieverRanker
 from langchain.agents import initialize_agent, Tool, AgentExecutor
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 def make_retriever():
@@ -47,8 +50,9 @@ def make_agent():
         llm=llm,
         max_iterations=3,
         early_stopping_method="generate",
-        verbose=True,
+        # verbose=True,
         stop=["\nObservation:"],
+        handle_parsing_errors=True,
     )
 
     return agent
