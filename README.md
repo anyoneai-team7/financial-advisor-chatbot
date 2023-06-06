@@ -83,7 +83,7 @@ In order to enable modular development, scalability, and flexibility we have cre
 │   ├── settings.py
 │   └── tests
 │       └── test_api.py
-├── frontend        # Scrpits for the frontend-backend using Next.js
+├── frontend        # Scrpits for the frontend using Next.js
 │   ├── Dockerfile
 │   ├── next-env.d.ts
 │   ├── package-lock.json
