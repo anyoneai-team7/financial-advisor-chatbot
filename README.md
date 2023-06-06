@@ -145,6 +145,9 @@ Our agent is provided with a single tool consisting of a customized [Retrieval Q
 
 From the observation the agent will generate a new thought, deciding whether to use the tool again or proceed to give a response to the user. 
 
+*Figure 2*
+![Agent](agent(1).jpg)
+
 ### The output from the Agent:
 #### Query: What is Inogen Inc's total gross margin percentage for 2020?
 ```
