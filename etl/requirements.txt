@@ -1,0 +1,4 @@
+boto3==1.26.130
+elasticsearch==7.17.9
+--extra-index-url https://download.pytorch.org/whl/cpu
+farm-haystack[preprocessing, pdf, file-conversion]==1.16.1
