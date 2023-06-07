@@ -7,7 +7,6 @@ from typing import Dict
 from src.transform import convert_file, preprocess_doc
 from haystack.document_stores import ElasticsearchDocumentStore
 
-
 document_store = ElasticsearchDocumentStore(
     host=os.environ.get("ELASTICSEARCH_HOST", "localhost"),
     username="",

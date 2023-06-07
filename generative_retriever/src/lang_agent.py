@@ -30,9 +30,7 @@ def setup_tools(llm: ChatOpenAI) -> List[Tool]:
         List[Tool]
     """
     qa = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=make_retriever(),
+        llm=llm, chain_type="stuff", retriever=make_retriever()
     )
     tools = [
         Tool(
@@ -68,5 +66,4 @@ def make_agent() -> AgentExecutor:
         verbose=True,
         handle_parsing_errors="Check your output and make sure it conforms!",
     )
-
     return agent

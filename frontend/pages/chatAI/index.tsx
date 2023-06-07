@@ -16,7 +16,7 @@ function ChatAI() {
       }}
       >
           <header className='bg-cyan-800 w-full h-20 shadow-inner flex items-center'>
-              <img className="pl-16 h-20 p-2" src="https://i.ibb.co/6W2b23s/anyone.png" alt="logo"/> 
+              <img className="pl-16 h-20 p-2" src="/anyone.png" alt="logo"/> 
               <h1 className='justify-self-center text-white'>FINANCIAL ADVISOR CHATBOT</h1>
           </header>
       </motion.div>
