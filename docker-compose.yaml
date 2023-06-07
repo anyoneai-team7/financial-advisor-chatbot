@@ -27,8 +27,8 @@ services:
       
   api:
     build:
-      #args:
-      #  - UID=${UID}
+      args:
+        - UID=${UID}
       context: ./api
       target: production
     container_name: api-application
@@ -45,8 +45,8 @@ services:
     build:
       target: build
       context: ./etl
-      #args:
-      #  - UID=${UID}
+      args:
+        - UID=${UID}
     container_name: etl-service
     depends_on:
       - elasticsearch
@@ -60,8 +60,8 @@ services:
   model:
     build:
       context: ./generative_retriever
-      #args:
-      #  - UID=${UID}
+      args:
+        - UID=${UID}
     container_name: model
     depends_on:
       - elasticsearch
@@ -87,5 +87,3 @@ volumes:
   esdata:
   redis_data:
   cross_encoder:
-
-
