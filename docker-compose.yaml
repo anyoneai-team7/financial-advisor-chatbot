@@ -41,6 +41,7 @@ services:
 
   etl:
     build:
+      target: build
       context: ./etl
       args:
         - UID=${UID}
@@ -84,5 +85,3 @@ volumes:
   esdata:
   redis_data:
   cross_encoder:
-
-

@@ -10,7 +10,7 @@
 
 + [Sebastian Lugo](https://www.linkedin.com/in/jhoan-sebastian-lugo-ruiz-8577b01b6/)
 
-+ [Alejandro León](https://www.linkedin.com/)
++ [Alejandro León](https://www.linkedin.com/in/jose-alejandro-leon-andrade-88249ab2)
 
 ### Mentor:
 + [Claudio A. Gauna](https://www.linkedin.com/in/claudio-andres-gauna-2b697b97/)
@@ -52,6 +52,7 @@ In order to enable modular development, scalability, and flexibility we have cre
                             information, and returns the answers.
 ```
 *Figure 1*. System architecture. 
+![System_architecture](https://i.imgur.com/T8tjHg2.png)
 ![System_architecture](https://i.imgur.com/T8tjHg2.png)
 
 ## Full project structure
@@ -148,6 +149,7 @@ From the observation the agent will generate a new thought, deciding whether to 
 *Figure 2.* Agent's processes cycle
 
 ![Agent](https://i.imgur.com/3yuvcDQ.png)
+![Agent](https://i.imgur.com/3yuvcDQ.png)
 
 ### The output from the Agent:
 
@@ -178,7 +180,60 @@ The graphical interface consists of two main views, the login and the chat (Figu
  *Figure 3*. User interface
 ![User interface](https://i.imgur.com/7tHuTOs.jpg)
 
+![User interface](https://i.imgur.com/7tHuTOs.jpg)
+
 # Instalation
+The project is able to build all images and run containers using docker-compose. 
+```
+bash
+$ docker-compose up -d
+```
+First, make sure to create and set values to environment variables in a file .env located at the root:
+```
+UID=
+AI_TEMP=
+AI_MAX_TOKENS=
+OPENAI_API_KEY=
+AWS_SECRET_KEY=
+AWS_ACCESS_KEY=
+ELASTICSEARCH_HOST=
+TRANSFORMERS_CACHE="/app/.cache/huggingface/hub"
+```
+After building and running containers you could use the demo through your *'localhost'* at port *'3000'* using any web browser: [http://localhost:3000/](http://localhost:3000/)
+
+To stop the services:
+```
+$ docker-compose down
+```
+# Tests
+
+We provide unit tests along with the project that you can run and check from your side the code meets the minimum requirements of correctness needed to approve. To run just execute:
+
+### 1. Modules
+
+We make use of [multi-stage docker builds](https://docs.docker.com/develop/develop-images/multistage-build/) so we can have into the same Dockerfile environments for testing and also for deploying our service.
+
+#### 1.1. Api
+Run:
+```
+$ cd api/
+$ docker build --build-arg="UID=1000" -t flask_api_test --progress=plain --target test .
+```
+
+#### 1.2. Etl
+Run:
+```
+$ cd etl/
+$ docker build -t etl-service_test --progress=plain --target test .
+```
+
+#### 1.3. Model (generative_retriever)
+Run:
+```
+$ cd generative_retriever/
+$ pytest tests/
+```
+
 The project is able to build all images and run containers using docker-compose. 
 ```
 bash
