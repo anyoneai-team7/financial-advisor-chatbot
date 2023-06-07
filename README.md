@@ -10,7 +10,7 @@
 
 + [Sebastian Lugo](https://www.linkedin.com/in/jhoan-sebastian-lugo-ruiz-8577b01b6/)
 
-+ [Alejandro León](https://www.linkedin.com/)
++ [Alejandro León](https://www.linkedin.com/in/jose-alejandro-leon-andrade-88249ab2)
 
 ### Mentor:
 + [Claudio A. Gauna](https://www.linkedin.com/in/claudio-andres-gauna-2b697b97/)
@@ -196,6 +196,39 @@ ELASTICSEARCH_HOST=
 TRANSFORMERS_CACHE="/app/.cache/huggingface/hub"
 ```
 After building and running containers you could use the demo through your *'localhost'* at port *'3000'* using any web browser: [http://localhost:3000/](http://localhost:3000/)
+
+To stop the services:
+```
+$ docker-compose down
+```
+# Tests
+
+We provide unit tests along with the project that you can run and check from your side the code meets the minimum requirements of correctness needed to approve. To run just execute:
+
+### 1. Modules
+
+We make use of [multi-stage docker builds](https://docs.docker.com/develop/develop-images/multistage-build/) so we can have into the same Dockerfile environments for testing and also for deploying our service.
+
+#### 1.1. Api
+Run:
+```
+$ cd api/
+$ docker build --build-arg="UID=1000" -t flask_api_test --progress=plain --target test .
+```
+
+#### 1.2. Etl
+Run:
+```
+$ cd etl/
+$ docker build -t etl-service_test --progress=plain --target test .
+```
+
+#### 1.3. Model (generative_retriever)
+Run:
+```
+$ cd generative_retriever/
+$ pytest tests/
+```
 
 # Resources
 - [Lil'Log: How to Build an Open-Domain Question Answering System?](https://lilianweng.github.io/posts/2020-10-29-odqa/)
