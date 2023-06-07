@@ -1,5 +1,4 @@
 import json
-<<<<<<< HEAD
 from typing import List
 import time
 import redis
@@ -78,7 +77,8 @@ def get_answer():
         #   4. Store the results on Redis using the original job ID as the key
         db.set(JobDec["id"], json.dumps(Out_dict))
         #   so the API can match the results it gets to the original job sent
-=======
+
+
 import redis
 import time
 import logging
@@ -150,16 +150,9 @@ def run():
         out_dict = {"content": answer}
         db.set(job_data["id"], json.dumps(out_dict))
 
->>>>>>> ciro
         # Sleep for a bit
         time.sleep(settings.SERVER_SLEEP)
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    # Now launch process
-    print("Agent service ready")
-    get_answer()
-=======
     run()
->>>>>>> ciro
