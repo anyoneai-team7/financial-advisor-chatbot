@@ -1,19 +1,9 @@
 from langchain.chat_models import ChatOpenAI
-<<<<<<< HEAD
-from langchain.chains import ConversationalRetrievalChain, RetrievalQA
-from haystack.document_stores import ElasticsearchDocumentStore
-from src.retriever import BM25RetrieverRanker
-from langchain.agents import initialize_agent, Tool, AgentExecutor
-import warnings
-
-warnings.filterwarnings("ignore")
-=======
 from langchain.chains import RetrievalQA
 from langchain.agents import initialize_agent, Tool, AgentExecutor
 from src import settings
 from typing import List
 from src.utils import make_retriever
->>>>>>> ciro
 
 
 def setup_llm() -> ChatOpenAI:
@@ -49,13 +39,9 @@ def setup_tools(llm: ChatOpenAI) -> List[Tool]:
             name="BM25 Retrieval",
             func=qa.run,
             description=(
-<<<<<<< HEAD
-                "useful to ask for information. Try using relevant keywords for a BM25 algorithm."
-=======
                 "useful to ask for information. Try using relevant keywords for a BM25 algorithm. "
                 "Do not omit important input details such as dates, numbers, company names or acronyms; "
                 "especially if the acronyms are written between parenthesis, for example: (DOO)."
->>>>>>> ciro
             ),
         ),
     ]
@@ -76,17 +62,11 @@ def make_agent() -> AgentExecutor:
         llm=llm,
         max_iterations=2,
         early_stopping_method="generate",
-<<<<<<< HEAD
-        # verbose=True,
-        stop=["\nObservation:"],
-        handle_parsing_errors=True,
-=======
         agent_kwargs={
             "stop": ["\nObservation:"],
         },
         verbose=True,
         handle_parsing_errors="Check your output and make sure it conforms!",
->>>>>>> ciro
     )
 
     return agent
