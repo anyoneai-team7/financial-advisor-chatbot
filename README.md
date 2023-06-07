@@ -53,7 +53,6 @@ In order to enable modular development, scalability, and flexibility we have cre
 ```
 *Figure 1*. System architecture. 
 ![System_architecture](https://i.imgur.com/T8tjHg2.png)
-![System_architecture](https://i.imgur.com/T8tjHg2.png)
 
 ## Full project structure
 
@@ -149,7 +148,7 @@ From the observation the agent will generate a new thought, deciding whether to 
 *Figure 2.* Agent's processes cycle
 
 ![Agent](https://i.imgur.com/3yuvcDQ.png)
-![Agent](https://i.imgur.com/3yuvcDQ.png)
+
 
 ### The output from the Agent:
 
@@ -180,7 +179,6 @@ The graphical interface consists of two main views, the login and the chat (Figu
  *Figure 3*. User interface
 ![User interface](https://i.imgur.com/7tHuTOs.jpg)
 
-![User interface](https://i.imgur.com/7tHuTOs.jpg)
 
 # Instalation
 The project is able to build all images and run containers using docker-compose. 
