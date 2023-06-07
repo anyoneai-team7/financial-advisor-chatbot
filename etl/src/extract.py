@@ -3,7 +3,6 @@ import os
 import multiprocessing
 import logging
 from collections import Counter
-from multiprocessing.connection import Connection
 
 s3 = boto3.resource(
     "s3",
@@ -12,7 +11,7 @@ s3 = boto3.resource(
 )
 
 
-def _get_top_company_list(objects, top: int = 100):
+def _get_top_company_list(objects, top=100):
     """Returns the top companies by file count
 
     Args:
@@ -30,7 +29,7 @@ def _get_top_company_list(objects, top: int = 100):
     return [company[0] for company in top_companies]
 
 
-def extract_docs(bucket_name: str, s3_folder: str, local_dir: str):
+def extract_docs(bucket_name, s3_folder, local_dir):
     """
     Download the contents of a folder directory
     Args:
@@ -69,13 +68,7 @@ def extract_docs(bucket_name: str, s3_folder: str, local_dir: str):
 
 
 class Extractor(multiprocessing.Process):
-    def __init__(
-        self,
-        connection: Connection,
-        bucket_name: str,
-        s3_folder: str,
-        local_dir: str = None,
-    ):
+    def __init__(self, connection, bucket_name, s3_folder, local_dir=None):
         self.connection = connection
         self.bucket_name = bucket_name
         self.s3_folder = s3_folder

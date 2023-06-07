@@ -3,14 +3,11 @@ import os
 import multiprocessing
 from src.extract import Extractor
 from src.load import Indexer
-import time
-
 
 logging.basicConfig(level=logging.INFO, format="%(processName)s %(message)s")
 
 
 if __name__ == "__main__":
-    time.sleep(30)
     parent_conn, child_conn = multiprocessing.Pipe()
     extractor = Extractor(
         parent_conn,

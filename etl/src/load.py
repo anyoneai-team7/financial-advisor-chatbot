@@ -1,11 +1,11 @@
+import multiprocessing
 import logging
 import glob
 import os
-from multiprocessing import Process
-from multiprocessing.connection import Connection
 from typing import Dict
 from src.transform import convert_file, preprocess_doc
 from haystack.document_stores import ElasticsearchDocumentStore
+
 
 document_store = ElasticsearchDocumentStore(
     host=os.environ.get("ELASTICSEARCH_HOST", "localhost"),
@@ -34,11 +34,11 @@ def index_doc(pdf_doc: Dict[str, str]) -> bool:
         return False
 
 
-class Indexer(Process):
-    def __init__(self, connection: Connection):
+class Indexer(multiprocessing.Process):
+    def __init__(self, connection):
         self.is_alive = True
         self.connection = connection
-        Process.__init__(self)
+        multiprocessing.Process.__init__(self)
 
     def run(self):
         logging.info("Waiting for files to be downloaded")

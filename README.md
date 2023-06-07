@@ -149,7 +149,6 @@ From the observation the agent will generate a new thought, deciding whether to 
 
 ![Agent](https://i.imgur.com/3yuvcDQ.png)
 
-
 ### The output from the Agent:
 
 ```
@@ -178,7 +177,6 @@ The graphical interface consists of two main views, the login and the chat (Figu
 
  *Figure 3*. User interface
 ![User interface](https://i.imgur.com/7tHuTOs.jpg)
-
 
 # Instalation
 The project is able to build all images and run containers using docker-compose. 
@@ -231,24 +229,6 @@ Run:
 $ cd generative_retriever/
 $ pytest tests/
 ```
-
-The project is able to build all images and run containers using docker-compose. 
-```
-bash
-$ docker-compose up -d
-```
-First, make sure to create and set values to environment variables in a file .env located at the root:
-```
-UID=
-AI_TEMP=
-AI_MAX_TOKENS=
-OPENAI_API_KEY=
-AWS_SECRET_KEY=
-AWS_ACCESS_KEY=
-ELASTICSEARCH_HOST=
-TRANSFORMERS_CACHE="/app/.cache/huggingface/hub"
-```
-After building and running containers you could use the demo through your *'localhost'* at port *'3000'* using any web browser: [http://localhost:3000/](http://localhost:3000/)
 
 # Resources
 - [Lil'Log: How to Build an Open-Domain Question Answering System?](https://lilianweng.github.io/posts/2020-10-29-odqa/)
