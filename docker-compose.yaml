@@ -60,6 +60,7 @@ services:
       context: ./generative_retriever
       args:
         - UID=${UID}
+      target: build
     container_name: model
     depends_on:
       - elasticsearch
@@ -83,5 +84,4 @@ services:
 
 volumes:
   esdata:
-  redis_data:
   cross_encoder:

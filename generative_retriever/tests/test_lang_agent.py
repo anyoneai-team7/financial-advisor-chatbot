@@ -3,22 +3,16 @@ from langchain.chat_models import ChatOpenAI
 import langchain
 import unittest
 import src.lang_agent
-from dotenv import load_dotenv
-import os
-from src import settings
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '..',"..", '.env')
-load_dotenv(dotenv_path)
-settings.API_KEY = os.getenv('OPENAI_API_KEY')
 
-class Test_Lang_Agent (TestCase):
+class Test_Lang_Agent(TestCase):
     def test_setup_llm(self):
         """
         Test case for the setup_llm method.
         This method tests the functionality of the setup_llm.
         It ensures that the method returns an instance of the ChatOpenAI class.
         """
-        
+
         result = src.lang_agent.setup_llm()
         self.assertIsInstance(result, ChatOpenAI)
 
@@ -28,12 +22,12 @@ class Test_Lang_Agent (TestCase):
         This method tests the functionality of the setup_tools method.
         It verifies that the method returns a list containing one object with specific properties.
         """
-            
+
         llm = src.lang_agent.setup_llm()
-        result = src.lang_agent.setup_tools(llm) 
-        self.assertEqual(len(result),1)
+        result = src.lang_agent.setup_tools(llm)
+        self.assertEqual(len(result), 1)
         self.assertIsInstance(result, list)
-        self.assertEqual(result[0].name, 'BM25 Retrieval')
+        self.assertEqual(result[0].name, "BM25 Retrieval")
 
     def test_make_agent(self):
         """
@@ -45,8 +39,11 @@ class Test_Lang_Agent (TestCase):
 
         result = src.lang_agent.make_agent()
         self.assertIsInstance(result, langchain.agents.AgentExecutor)
-        self.assertIsInstance(result.agent, langchain.agents.conversational_chat.base.ConversationalChatAgent)
+        self.assertIsInstance(
+            result.agent,
+            langchain.agents.conversational_chat.base.ConversationalChatAgent,
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
