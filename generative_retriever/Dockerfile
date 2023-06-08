@@ -1,5 +1,5 @@
-# syntax=docker/dockerfile:1
-FROM python:3.9-slim
+#syntax=docker/dockerfile:1
+FROM python:3.9-slim as base
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -23,5 +23,10 @@ COPY . /app
 RUN adduser -u $UID --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+ENV PYTHONPATH=$PYTHONPATH:/app/
+
+FROM base as build
 CMD ["python", "main.py"]
+
+FROM base as test 
+ENTRYPOINT ["python", "-m", "pytest", "./tests", "-v"]
