@@ -1,6 +1,6 @@
 FROM python:3.8-slim as base
 
-ARG UID
+#ARG UID
 WORKDIR /app
 
 COPY requirements.txt .
@@ -15,8 +15,8 @@ ENV PYTHONPATH=$PYTHONPATH:/app/
 ENV PATH=$PATH:/home/app/.local/bin/
 
 
-RUN adduser -u $UID --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
+#RUN adduser -u $UID --disabled-password --gecos "" appuser && chown -R appuser /app
+#USER appuser
 
 EXPOSE 5000
 
