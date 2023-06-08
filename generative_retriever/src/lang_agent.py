@@ -58,7 +58,7 @@ def make_agent() -> AgentExecutor:
         agent="chat-conversational-react-description",
         tools=tools,
         llm=llm,
-        max_iterations=2,
+        max_iterations=5,
         early_stopping_method="generate",
         agent_kwargs={
             "stop": ["\nObservation:"],
