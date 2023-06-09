@@ -233,7 +233,6 @@ If you run elascticsearch with docker compose, run this after building the image
 $ docker run --env-file ../.env --network="financial-advisor-chatbot_default" model_test
 ```
 
-
 # Resources
 - [Lil'Log: How to Build an Open-Domain Question Answering System?](https://lilianweng.github.io/posts/2020-10-29-odqa/)
 
