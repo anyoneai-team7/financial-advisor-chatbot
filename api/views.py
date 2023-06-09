@@ -20,13 +20,13 @@ def ask_model():
     """
     try:
         messages = request.json["messages"]
-        user = str(uuid4())
+        job_id = str(uuid4())
 
         ## Validation to get the last 8 messages to the conversation
         if len(messages) > 8:
             messages = messages[-8:]
-        response = model_predict(messages, user)
-        return {"user": user, "content": response}
+        response = model_predict(messages, job_id)
+        return {"content": response}
     except Exception as e:
         error_message = str(e)
         logging.error(error_message)

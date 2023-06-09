@@ -13,30 +13,30 @@ db = redis.Redis(
 )
 
 
-def model_predict(messages: List[Dict[str, str]], user: str) -> str:
+def model_predict(messages: List[Dict[str, str]], job_id: str) -> str:
     """Pushes a text generation job to redis, and waits for the generative model response
 
     Args:
         messages (List[Dict[str, str]]): message history
-        user (str): ID of current user. To be used as job ID.
+        job_id (str): To be used as redis job ID.
 
     Returns:
         str: response of the model
     """
     content = None
 
-    job_data = {"id": user, "messages": messages}
+    job_data = {"id": job_id, "messages": messages}
 
     db.lpush(settings.REDIS_QUEUE, json.dumps(job_data))
 
     while True:
-        output = db.get(user)
+        output = db.get(job_id)
 
         if output is not None:
             output = json.loads(output.decode("utf-8"))
             content = output["content"]
 
-            db.delete(user)
+            db.delete(job_id)
             break
 
         # Sleep some time waiting for model results
