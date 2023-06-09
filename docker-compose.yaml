@@ -58,7 +58,6 @@ services:
       args:
         - UID=${UID}
       target: build
-    container_name: model
     depends_on:
       - elasticsearch
       - redis
