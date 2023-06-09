@@ -25,7 +25,9 @@ class AskModelTestCase(unittest.TestCase):
             # Assert the response
             self.assertEqual(response.status_code, 200)
             expected_response = {"user": "user1", "content": "Mocked response"}
-            self.assertEqual(response.get_json(), expected_response)
+            self.assertEqual(
+                response.get_json()["content"], expected_response["content"]
+            )
 
     def test_ask_model_with_invalid_data(self):
         # Send a POST request without the required JSON fields

@@ -186,13 +186,13 @@ $ docker-compose up -d
 ```
 First, make sure to create and set values to environment variables in a file .env located at the root:
 ```
-UID=
-OPENAI_API_KEY=
-AWS_SECRET_KEY=
-AWS_ACCESS_KEY=
-ELASTICSEARCH_HOST=
+UID = <your uid>
+OPENAI_API_KEY= <your OpenAI API key>
+AWS_SECRET_KEY= <AWS bucket secret key>
+AWS_ACCESS_KEY= <AWS bucket access key>
+ELASTICSEARCH_HOST= "elasticsearch"
 TRANSFORMERS_CACHE="/app/.cache"
-GUNICORN_TIMEOUT=
+GUNICORN_TIMEOUT= 120
 ```
 After building and running containers you could use the demo through your *'localhost'* at port *'3000'* using any web browser: [http://localhost:3000/](http://localhost:3000/)
 
