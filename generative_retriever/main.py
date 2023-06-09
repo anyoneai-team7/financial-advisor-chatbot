@@ -48,7 +48,7 @@ def agent_predict(
         except ValueError:
             return output
     except:
-        return "I am sorry, I cannot answer at the moment. Please try again later"
+        return "I am sorry, I cannot answer at the moment. You could try again later"
 
 
 def run():
