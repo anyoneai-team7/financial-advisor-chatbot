@@ -182,7 +182,7 @@ The graphical interface consists of two main views, the login and the chat (Figu
 The project is able to build all images and run containers using docker-compose. 
 ```
 bash
-$ docker-compose up -d
+$ docker-compose up --env-file ./.env -d
 ```
 First, make sure to create and set values to environment variables in a file .env located at the root:
 ```
