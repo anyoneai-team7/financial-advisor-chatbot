@@ -5,3 +5,4 @@ openai==0.27.7
 sentence-transformers==2.2.2
 tiktoken==0.4.0
 redis==4.5.5
+pytest==7.1.2

@@ -182,18 +182,17 @@ The graphical interface consists of two main views, the login and the chat (Figu
 The project is able to build all images and run containers using docker-compose. 
 ```
 bash
-$ docker-compose up -d
+$ docker-compose up --env-file ./.env -d
 ```
 First, make sure to create and set values to environment variables in a file .env located at the root:
 ```
 UID=
-AI_TEMP=
-AI_MAX_TOKENS=
 OPENAI_API_KEY=
 AWS_SECRET_KEY=
 AWS_ACCESS_KEY=
 ELASTICSEARCH_HOST=
-TRANSFORMERS_CACHE="/app/.cache/huggingface/hub"
+TRANSFORMERS_CACHE="/app/.cache"
+GUNICORN_TIMEOUT=
 ```
 After building and running containers you could use the demo through your *'localhost'* at port *'3000'* using any web browser: [http://localhost:3000/](http://localhost:3000/)
 
@@ -213,21 +212,25 @@ We make use of [multi-stage docker builds](https://docs.docker.com/develop/devel
 Run:
 ```
 $ cd api/
-$ docker build --build-arg="UID=1000" -t flask_api_test --progress=plain --target test .
+$ docker build --build-arg="UID=$(id -u)" -t flask_api_test --progress=plain --target test .
 ```
 
 #### 1.2. Etl
 Run:
 ```
 $ cd etl/
-$ docker build -t etl-service_test --progress=plain --target test .
+$ docker build --build-arg="UID=$(id -u)" -t etl-service_test --progress=plain --target test .
 ```
 
 #### 1.3. Model (generative_retriever)
 Run:
 ```
 $ cd generative_retriever/
-$ pytest tests/
+$ docker build -t model_test --progress=plain --build-arg "UID=$(id -u)" --target test .  
+```
+If you run elascticsearch with docker compose, run this after building the image run
+```
+$ docker run --env-file ../.env --network="financial-advisor-chatbot_default" model_test
 ```
 
 # Resources

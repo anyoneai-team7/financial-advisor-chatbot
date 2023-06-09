@@ -8,10 +8,6 @@ services:
       - "3000:3000"
     container_name: web-application
     stdin_open: true
-    environment:
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      AI_TEMP: ${AI_TEMP}
-      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./frontend:/usr/src/app/frontend
       - /usr/src/app/frontend/node_modules
@@ -22,14 +18,14 @@ services:
     image: redis:6.2.6
     ports:
       - '6379:6379'
-    volumes:
-      - redis_data:/data
       
   api:
     build:
       args:
         - UID=${UID}
+        - GUNICORN_TIMEOUT=${GUNICORN_TIMEOUT}
       context: ./api
+      target: production
     container_name: api-application
     ports:
       - "5000:5000"
@@ -39,14 +35,10 @@ services:
     environment:
       FLASK_ENV: development
       FLASK_APP: app.py
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      AI_TEMP: ${AI_TEMP}
-      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
-    volumes:
-      - ./api:/usr/src/app/api
 
   etl:
     build:
+      target: build
       context: ./etl
       args:
         - UID=${UID}
@@ -65,7 +57,7 @@ services:
       context: ./generative_retriever
       args:
         - UID=${UID}
-    container_name: model
+      target: build
     depends_on:
       - elasticsearch
       - redis
@@ -88,7 +80,4 @@ services:
 
 volumes:
   esdata:
-  redis_data:
   cross_encoder:
-
-
