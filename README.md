@@ -191,7 +191,8 @@ OPENAI_API_KEY=
 AWS_SECRET_KEY=
 AWS_ACCESS_KEY=
 ELASTICSEARCH_HOST=
-TRANSFORMERS_CACHE="/app/.cache/huggingface/hub"
+TRANSFORMERS_CACHE="/app/.cache"
+GUNICORN_TIMEOUT=
 ```
 After building and running containers you could use the demo through your *'localhost'* at port *'3000'* using any web browser: [http://localhost:3000/](http://localhost:3000/)
 
