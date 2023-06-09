@@ -63,8 +63,7 @@ def make_agent() -> AgentExecutor:
         agent_kwargs={
             "stop": ["\nObservation:"],
         },
-        verbose=False,
         handle_parsing_errors=True,
-        # "Check your output and make sure it conforms!",
+        verbose=True
     )
     return agent

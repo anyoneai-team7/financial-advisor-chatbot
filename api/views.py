@@ -1,4 +1,5 @@
 import logging
+from uuid import uuid4
 from flask import Blueprint, request, abort
 from middleware import model_predict
 
@@ -19,7 +20,7 @@ def ask_model():
     """
     try:
         messages = request.json["messages"]
-        user = request.json["user"]
+        user = str(uuid4())
 
         ## Validation to get the last 8 messages to the conversation
         if len(messages) > 8:

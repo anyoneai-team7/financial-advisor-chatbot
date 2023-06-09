@@ -8,10 +8,6 @@ services:
       - "3000:3000"
     container_name: web-application
     stdin_open: true
-    environment:
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      AI_TEMP: ${AI_TEMP}
-      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./frontend:/usr/src/app/frontend
       - /usr/src/app/frontend/node_modules
@@ -22,13 +18,12 @@ services:
     image: redis:6.2.6
     ports:
       - '6379:6379'
-    #volumes:
-    # - redis_data:/data
-
+      
   api:
     build:
       args:
         - UID=${UID}
+        - GUNICORN_TIMEOUT=${GUNICORN_TIMEOUT}
       context: ./api
       target: production
     container_name: api-application
@@ -62,6 +57,7 @@ services:
       context: ./generative_retriever
       args:
         - UID=${UID}
+      target: build
     container_name: model
     depends_on:
       - elasticsearch
@@ -71,9 +67,6 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
     volumes:
       - cross_encoder:/app/.cache/huggingface/hub
-  #      - type: bind
-  #        source: ./generative_retriever/main.py
-  #        target: /app/main.py
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2

@@ -5,7 +5,6 @@ import redis
 import settings
 from typing import List, Dict
 
-
 logging.basicConfig(level=20)
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
@@ -25,8 +24,8 @@ def model_predict(messages: List[Dict[str, str]], user: str) -> str:
         str: response of the model
     """
     content = None
-    job_id = user
-    job_data = {"id": job_id, "messages": messages}
+
+    job_data = {"id": user, "messages": messages}
 
     db.lpush(settings.REDIS_QUEUE, json.dumps(job_data))
 

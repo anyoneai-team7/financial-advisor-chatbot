@@ -1,6 +1,9 @@
 FROM python:3.8-slim as base
 
 ARG UID
+ARG GUNICORN_TIMEOUT=30
+ENV G_TIMEOUT=$GUNICORN_TIMEOUT
+
 WORKDIR /app
 
 COPY requirements.txt .
@@ -27,4 +30,4 @@ FROM base as test
 RUN ["pytest", "-v", "./tests"]
 
 FROM base as production
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "120","app:app"]
+ENTRYPOINT gunicorn --timeout=$G_TIMEOUT --workers=4 --bind 0.0.0.0:5000  app:app 
