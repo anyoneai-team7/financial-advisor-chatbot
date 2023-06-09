@@ -8,10 +8,6 @@ services:
       - "3000:3000"
     container_name: web-application
     stdin_open: true
-    environment:
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      AI_TEMP: ${AI_TEMP}
-      AI_MAX_TOKENS: ${AI_MAX_TOKENS}
     volumes:
       - ./frontend:/usr/src/app/frontend
       - /usr/src/app/frontend/node_modules
@@ -27,6 +23,7 @@ services:
     build:
       args:
         - UID=${UID}
+        - GUNICORN_TIMEOUT=${GUNICORN_TIMEOUT}
       context: ./api
       target: production
     container_name: api-application

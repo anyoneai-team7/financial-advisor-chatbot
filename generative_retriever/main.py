@@ -40,13 +40,8 @@ def agent_predict(
                 "chat_history": chat_history_ls,
             }
         )["output"]
-        logging.info(output)
 
-        try:
-            output = json.loads(output)["action_input"]
-            return output
-        except ValueError:
-            return output
+        return output
     except:
         return "I am sorry, I cannot answer at the moment. Please try again later"
 
