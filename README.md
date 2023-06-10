@@ -61,6 +61,8 @@ In order to enable modular development, scalability, and flexibility we have cre
 │   ├── .dockerignore
 │   ├── Dockerfile
 │   ├── main.py
+│   └── dataset
+│   │   └── <one folder by companie>
 │   └── src
 │   │   ├── extract.py
 │   │   ├── load.py
@@ -68,7 +70,9 @@ In order to enable modular development, scalability, and flexibility we have cre
 │   │   └── utils
 │   │       └── text_normalizer.py
 │   └── tests
-│       └── test_etl.py
+│       ├── test_extract.py
+│       ├── test_transform.py
+│       └── test_utils.py
 ├── eda             # Scripts to do the exploratory data analysis of the collection of text used
 │   ├── eda.ipynb
 │   ├── contractions.py
@@ -107,7 +111,7 @@ In order to enable modular development, scalability, and flexibility we have cre
 │   │   └── favicon.ico
 │   └── utils
 │       └── OpenAIStream.ts
-├── generative_retriever   # Scripts for the generative-retriever model the main frameworks used here are Haystacks and Langchain
+├── generative_retriever   # Scripts for the model the main frameworks used here are Haystacks and Langchain
 │   ├── .dockerignore
 │   ├── Dockerfile
 │   ├── main.py
@@ -118,9 +122,9 @@ In order to enable modular development, scalability, and flexibility we have cre
 │   │   ├── settings.py
 │   │   └── utils.py
 │   └── tests
-│       └── test_agent.py
-├── tests                # Test the integration of the entire system
-│   └── test_integration.py
+│       ├── test_lang_agent.py
+│       ├── test_retriever.py
+│       └── test_utils.py
 ├── .env
 ├── .gitignore
 ├── docker-compose.yml
