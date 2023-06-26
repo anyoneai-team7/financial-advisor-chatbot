@@ -1,6 +1,6 @@
 # Financial Advisor Chatbot
 
-## Final project for the degree of ML engineer at [Anyone AI](https://www.linkedin.com/school/anyone-ai/) bootcamp.
+## Final project of the ML engineering fellowship at [Anyone AI](https://www.linkedin.com/school/anyone-ai/).
 
 ### Team members:
 
