@@ -12,7 +12,7 @@
 
 + [Alejandro León](https://www.linkedin.com/in/jose-alejandro-leon-andrade-88249ab2)
 
-### Mentor:
+### Supervisor:
 + [Claudio A. Gauna](https://www.linkedin.com/in/claudio-andres-gauna-2b697b97/)
 
 # ABSTRACT
